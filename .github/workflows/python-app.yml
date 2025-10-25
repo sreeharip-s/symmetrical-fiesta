@@ -1,0 +1,46 @@
+name: Run Zoom Link Automation
+
+on:
+  # This runs the script on a schedule.
+  # "*/15" means it runs at minutes 0, 15, 30, and 45 of every hour.
+  # This ensures tasks are never missed.
+  schedule:
+    - cron: '*/15 16-19 * * *'
+
+  # This allows you to run the workflow manually from the Actions tab on GitHub.
+  # Incredibly useful for testing!
+  workflow_dispatch:
+
+jobs:
+  run-automation-script:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Check out your repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up the Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Step 3: Install all the necessary libraries
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 pytz
+
+      # Step 4: Run your Python script
+      # This is the most important step. It injects your GitHub Secrets
+      # as environment variables that the Python script can access.
+      - name: Run the automation script
+        env:
+          ZOOM_OAUTH_TOKEN: ${{ secrets.ZOOM_OAUTH_TOKEN }}
+          ZOOM_CHANNEL_IDS: ${{ secrets.ZOOM_CHANNEL_IDS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+          WINNERS_MOBILE_NUMBER: ${{ secrets.WINNERS_MOBILE_NUMBER }}
+          WINNERS_PASSWORD: ${{ secrets.WINNERS_PASSWORD }}
+        run: python robust_linker.py
