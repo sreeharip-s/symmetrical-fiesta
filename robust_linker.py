@@ -156,7 +156,7 @@ def run_daily_report():
     send_alert(f"Daily Status Report:\n{status}", title="Automation Status")
 
 # ==============================================================================
-# --- 4. MAIN EXECUTION LOGIC ---
+# --- 4. MAIN EXECUTION LOGIC (CORRECTED) ---
 # ==============================================================================
 
 def main():
@@ -168,17 +168,36 @@ def main():
     current_hour = now.hour
     current_minute = now.minute
 
-    print(f"Job Check at: {now.strftime('%Y-%m-%d %H:%M:%S %Z')}")
+    print(f"Job Check at: {now.strftime('%Y-%-m-%d %H:%M:%S %Z')}")
 
-    if current_hour == 8 and current_minute < 15: run_daily_report()
+    task_to_run = None # Variable to hold which task should be run
+
+    # --- Time-based Dispatcher Logic ---
+    if current_hour == 8 and current_minute < 15: # Runs once between 8:00 and 8:15
+        task_to_run = 'daily_report'
+    
     elif current_day == 6: # Sunday
-        if current_hour == 17 and current_minute < 15: execute_task('sunday_classes')
-        elif current_hour == 18 and current_minute >= 55: execute_task('sunday_marks')
+        if current_hour == 17 and current_minute < 15:
+            task_to_run = 'sunday_classes'
+        elif current_hour == 18 and current_minute >= 55:
+            task_to_run = 'sunday_marks'
+            
     else: # Weekday (Mon-Sat)
-        if current_hour == 16 and current_minute < 15: execute_task('weekday_circle')
-        elif current_hour == 17 and current_minute < 15: execute_task('weekday_normal')
-        elif current_hour == 18 and current_minute >= 55: execute_task('weekday_normal')
-        elif current_hour == 19 and current_minute >= 15 and current_minute < 30: execute_task('weekday_mark')
+        if current_hour == 16 and current_minute < 15:
+            task_to_run = 'weekday_circle'
+        elif current_hour == 17 and current_minute < 15:
+            task_to_run = 'weekday_normal'
+        elif current_hour == 18 and current_minute >= 55:
+            task_to_run = 'weekday_normal'
+        elif current_hour == 19 and current_minute >= 15 and current_minute < 30:
+            task_to_run = 'weekday_mark'
+
+    # --- Execute the determined task ---
+    if task_to_run:
+        if task_to_run == 'daily_report':
+            run_daily_report()
+        else:
+            execute_task(task_to_run)
     else:
         print("No task scheduled for the current time window.")
 
