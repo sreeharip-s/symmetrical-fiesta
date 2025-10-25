@@ -1,4 +1,4 @@
-name: Run Zoom Link Automation
+name: Run zoom Link Automation
 
 on:
   # Schedule runs every 15 minutes between 16:00-19:59, and at 08:00
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           
       - name: Install required Python libraries
         run: |
