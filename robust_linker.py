@@ -402,7 +402,7 @@ class TaskScheduler:
             elif hour == 19 and 15 <= minute < 30:
                 return TaskType.WEEKDAY_MARK
         
-        return None
+        return TaskType.WEEKDAY_NORMAL
 
 
 # ==============================================================================
