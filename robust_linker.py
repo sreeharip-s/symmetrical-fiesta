@@ -46,11 +46,11 @@ class Config:
     def from_env(cls) -> "Config":
         """Load configuration from environment variables."""
         return cls(
-            ntfy_topic_url=os.getenv("NTFY_TOPIC_URL", ""),
-            zoom_webhook_urls=[url.strip() for url in os.getenv("ZOOM_WEBHOOK_URLS", "").split(",") if url.strip()],
-            zoom_verification_tokens=[token.strip() for token in os.getenv("ZOOM_VERIFICATION_TOKENS", "").split(",") if token.strip()],
-            winners_mobile=os.getenv("WINNERS_MOBILE_NUMBER", ""),
-            winners_password=os.getenv("WINNERS_PASSWORD", ""),
+            ntfy_topic_url="http://ntfy.sh/n8nzoomsreeh",
+            zoom_webhook_urls=["https://integrations.zoom.us/chat/webhooks/incomingwebhook/DKsHKHYoRKu20pyduC7rqA"],
+            zoom_verification_tokens=["j1GZcx98SriH3z0NjhdSRQ"],
+            winners_mobile="971552002276",
+            winners_password="67222276",
         )
     
     def validate(self) -> bool:
