@@ -28,4 +28,4 @@ $$x = \frac{126}{2}$$
 
 Divide $\frac{126}{2}$ and get answer:
 
-$$\fbox{x = 63$}$
+$$\boxed{x = 63$}$
